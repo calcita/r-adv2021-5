@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Programación avanzada en R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Creative Commons Attribution 4.0 International License" />
+    <script src="taller_pkgs_files/header-attrs-2.8/header-attrs.js"></script>
+    <link href="taller_pkgs_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="taller_pkgs_files/tile-view-0.2.6/tile-view.js"></script>
+    <link href="taller_pkgs_files/animate.css-3.7.2/animate.xaringan.css" rel="stylesheet" />
+    <link href="taller_pkgs_files/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="taller_pkgs_files/freezeframe-5.0.2/freezeframe.min.js"></script>
+    <script src="taller_pkgs_files/xaringanExtra-freezeframe-0.0.1/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <script src="taller_pkgs_files/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="taller_pkgs_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="taller_pkgs_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xadb3c731b10426fa94610da685dc1d5","expires":1}</script>
+    <script src="taller_pkgs_files/himalaya-1.1.0/himalaya.js"></script>
+    <script src="taller_pkgs_files/js-cookie-3.0.0/js.cookie.js"></script>
+    <link href="taller_pkgs_files/editable-0.2.6/editable.css" rel="stylesheet" />
+    <script src="taller_pkgs_files/editable-0.2.6/editable.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Programación avanzada en R
+## Escuela de Invierno - Julio 2021 <br> Gabriela Mathieu
+### <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /> <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+
+---
+
+
+
+
+
+
+
+
+
+
+&lt;style type="text/css"&gt;
+.code-bg-palegreen .remark-code, .code-bg-palegreen .remark-code * {
+ background-color:palegreen!important;
+}
+
+.code-bg-skyblue .remark-code, .code-bg-skyblue .remark-code * {
+ background-color:skyblue!important;
+}
+&lt;/style&gt;
+
+# ¿Qué haremos hoy?
+
+- Funciones propias (continuación)
+
+- Desarrollar un paquete en R 
+
+- Documentar las funciones 
+
+- Testear y compilar el paquete
+
+- Instalar el paquete local y remotamente
+
+&lt;!-- - Paquete purrr (programación funcional) --&gt;
+
+---
+# Paquetes para desarrollar un paquete
+
+.left-column[
+
+&lt;img src="http://hexb.in/hexagons/rstudio.png" width="34%" /&gt;&lt;img src="http://hexb.in/hexagons/devtools.png" width="34%" /&gt;&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/usethis.png" width="34%" /&gt;&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/testthat.png" width="34%" /&gt;&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/glue.png" width="34%" /&gt;&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/roxygen2.png" width="34%" /&gt;
+]
+
+- No son imprescindibles pero facilitan el trabajo
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;usethis&lt;/span&gt;: para crear la estructura del paquete.
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;devtools&lt;/span&gt;: para chequear el paquete, generar la documentación e instalarlo.
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;roxygen2&lt;/span&gt;: para documentar las funciones.
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;assertthat&lt;/span&gt;, &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;glue&lt;/span&gt;: para chequear los argumentos de la función mientras se ejecuta y definir mensajes informativos en caso de error.
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;testthat&lt;/span&gt;: para testear formalmente las funciones
+
+
+---
+# Requisitos
+
+- Verificar instalación o Instalar:
+    - Rtools (Windows)
+    - Xcode (Mac)
+    - r-base-dev package (Linux: Ubuntu/Debian). 
+--
+
+- Nos son paquetes de R, se instalan en el sistema operativo.
+
+--
+
+- Instalar los siguientes paquetes de R:
+    - usethis
+    - devtools
+    - assertthat
+    - [roxygen2](https://roxygen2.r-lib.org/)
+    - testthat
+    - glue
+
+
+---
+# Estructura de un paquete
+
+- Un paquete en R se desarrolla dentro de una carpeta que tiene el nombre del paquete y debe contener obligatoriamente estos archivos y carpetas:
+
+  - &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;El archivo DESCRIPTION&lt;/span&gt;: donde va la metada del paquete (version, autoría, dependencias, licencia, etc.)
+  - &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: deeppink !important;" &gt;El archivo NAMESPACE&lt;/span&gt;: se genera automáticamente y va a listar las funciones exportables del paquete, las funciones de paquetes externos, entre otras cosas.
+  - &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;La carpeta 'R'&lt;/span&gt; donde van archivos .R con las funciones
+  - &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: deeppink !important;" &gt;La carpeta 'man'&lt;/span&gt; donde van archivos .Rd con la documentación de las funciones
+
+- Si usamos RStudio vamos a tener también un Rproj
+
+- DESCRIPTION y los scripts dentro de 'R' los editamos. Mientras que NAMESPACE y los archivos dentro de 'man' no.
+
+- También puede tener otras carpetas y archivos determinados, pero los anteriores son los imprescindibles.
+
+---
+# Estructura de "mipaquete"
+
+&lt;img src="img/pkgs/pkg_estructura.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Pasos para crear un paquete
+
+- 0 - Crear un repositorio en gitlab/github
+&lt;br&gt;&lt;br&gt;
+--
+
+- 1- Crear el esqueleto
+&lt;br&gt;&lt;br&gt;
+--
+
+- 2- Agregar o editar las funciones (.R)
+&lt;br&gt;&lt;br&gt;
+--
+
+- 3- Agregar o editar la ayuda de las funciones (.R) 
+&lt;br&gt;&lt;br&gt;
+--
+
+- 4- Generar la documentación (.Rd  y NAMESPACE)
+&lt;br&gt;&lt;br&gt;
+--
+
+- 5- Editar el archivo DESCRIPTION 
+&lt;br&gt;&lt;br&gt;
+--
+
+- 6- Crear tests para las funciones
+&lt;br&gt;&lt;br&gt;
+--
+
+- 7- Chequear el paquete
+&lt;br&gt;&lt;br&gt;
+--
+
+- 8- Construir el paquete (generar el archivo .tar.gz)
+&lt;br&gt;&lt;br&gt;
+--
+
+Estos pasos, a partir del 2, se repiten tantas veces como sea necesario, el orden no necesariamente siempre es el mismo. 
+
+
+---
+# 1- Crear el esqueleto del paquete
+
+- Crear un repositorio en GitLab y llamarlo como se va a llamar el paquete
+--
+
+- Abrir RStudio y crear un proyecto en un repositorio nuevo
+--
+
+- Esto crea la carpeta del paquete (oliver) y la estructura interna.
+
+&lt;img src="img/pkgs/genero_estructura.gif" width="30%" /&gt;
+
+
+---
+# 2- Agregar funciones
+
+- Podemos generar un script como siempre o usar el paquete usethis.
+&lt;br&gt;&lt;br&gt;
+--
+
+- La función use_r() genera un script de R vacío donde escribir una función y lo guarda en la carpeta 'R'
+&lt;br&gt;&lt;br&gt;
+--
+
+
+```r
+usethis::use_r("my_first_function")
+```
+--
+
+- Luego abrimos ese archivo y lo editamos para crear la función.
+&lt;br&gt;&lt;br&gt;
+--
+
+- En un mismo archivo puede incluir más de una función.
+&lt;br&gt;&lt;br&gt;
+--
+
+- Si mi paquete tiene unas cuantas funciones tiene sentido agruparlas por cierta temática en un mismo archivo.
+
+---
+# 3- Documentar las funciones
+
+.pull-left[
+
+- En el script de R, en la zona del encabezado de la función se debe generar el esqueleto de roxygen2.
+
+
+- Sobre el código de la función ejecutar `CTRL + ALT + SHIFT + R`
+
+
+- Una vez que se generó el esqueleto lo editamos
+
+]
+
+.pull-right[
+![](img/pkgs/ayuda.png)&lt;!-- --&gt;
+
+]
+
+
+---
+# Documentar las funciones
+
+
+- La ayuda de la función se coloca arriba de la función
+- Cada línea de la ayuda comienza con `#'`
+- La ayuda de las funciones las editamos desde el .R no desde el .Rd
+
+- Los elementos de la documentación principales son:
+  - Title: va en la primera línea y se genera automáticamente por roxygen2
+  - Description (`@description`) breve descripción de lo que hace la función 
+  - Arguments: (`@param`) descripción del argumento
+  - Values: (`@return`), lo que devuelve la función
+  - Examples: (`@return`), ejemplos de uso de la función
+  - `@export`: indica que la función se exporta, de lo contrario es interna y no queda disponible
+  - `@importFrom`: para especificar el uso de una función de un paquete externo
+  
+
+---
+# 4- Generar Rd y actualizar NAMESPACE
+
+- Cada vez que modificamos una función o la documentación debemos ejectuar actualizar los Rd y el NAMESPACE
+--
+
+- Para esto ejecutamos la función document() del paquete devtools
+
+
+
+```r
+devtools::document()
+```
+
+---
+# 4.5 Instalar
+
+No esperamos al final para hacer pruebas informales de las funciones sino que lo instalamos aunque aún esté en desarrollo
+
+
+```r
+devtools::install()
+```
+
+---
+# 6- Testear el código
+
+- Con el paquete testthat diseñaremos tests para aplicar a nuestras funciones que se ejecutarán de forma automatizada
+--
+
+
+```r
+usethis::use_testthat()
+```
+--
+
+- Ayudan a asegurarnos que actualizaciones futuras no rompan el código
+--
+
+- Cada test unitario se ejecuta también cuando se hace un check del paquete
+--
+
+- Para crear un test específico de una función ejecuto 
+--
+
+
+```r
+usethis::use_test()
+```
+--
+
+- De antemano sabemos que cuando corremos la función esperamos que el resultado sea un vector de tantos elementos, o un data frame, etc. 
+--
+
+- En el test probamos que eso ocurra usando la familia de funciones expect_()
+
+---
+# Tipo de tests
+
+
+```r
+expect_lte()
+expect_gte()
+expect_equal()
+expect_setequal()
+expect_equivalent()
+expect_identical()
+expect_length()
+expect_null()
+expect_error()
+expect_warning()
+expect_true()
+```
+
+Cada prueba debe tener un nombre informativo que cubra una sola funcionalidad.
+La idea es que cuando una prueba falle, se sepa qué es lo que falla y en qué parte del código se debe buscar el problema.
+
+---
+# Ejemplo 
+
+- Vamos a testear esta función
+ 
+
+```r
+suma  &lt;- function(x, y) {
+  x + y
+} 
+```
+
+- Escribimos los tests
+
+
+```r
+test_that("suma resultado", {
+  expect_identical(sum(6, 4), 10)
+  expect_length(suma(6, 5), 1)
+})
+```
+
+```
+Test passed 🥳
+```
+
+```r
+test_that("suma class", {
+  expect_is(suma(-1, 5), "numeric")
+})
+```
+
+```
+Test passed 😀
+```
+
+Nos devuelve el resultado, en este caso exitoso
+
+---
+# Ejemplo
+
+- Vamos a incluir un resultado no esperado en el test solo para ver el mensaje de error
+
+
+```r
+test_that("suma class", {
+  expect_is(suma(-1, 5), "character")
+})
+```
+
+```
+── Failure (&lt;text&gt;:3:3): suma class ────────────────────────────────────────────
+suma(-1, 5) inherits from `'numeric'` not `'character'`.
+```
+
+- En este caso falla el test pero fue provocado
+
+- Lo que en general ocurre es que el probema está en la función, entonces debo ir a corregirla y volver a realizar los tests.
+
+---
+# 7- Check
+
+En este punto que tenemos las funciones, los test y las ayudas, chequeamos que no falte documentación o haya errores en las estructuras de los archivos.
+--
+
+
+```r
+devtools::check()
+```
+--
+
+Esta función hace varias cosas:
+- re-documenta el paquete,
+- comprueba el archivo DESCRIPTION
+- construye el paquete en un archivo .tar.gz
+- comprueba si el paquete puede ser instalado
+- si todas las dependencias requeridas están listadas
+- si hay algún error de sintaxis
+- si todos los archivos de documentación están en su lugar
+- ejecuta el script testthat.R, que ejecuta las pruebas en el directorio testthat
+- ...
+
+Al finalizar devuelve errores, advertencias y notas.
+--
+
+Se genera una carpeta llamada oliver.Rcheck
+
+---
+# 8- Build
+
+Los paquetes de R se distribuyen en archivos .tar.gz
+
+Cuando el paquete esté pronto debemos generar este archivo y de esa manera quedará accesible para instalar localmente
+
+
+```r
+devtools::build("home/calcita/Documents/oliver")
+```
+
+- Luego lo instalamos 
+
+
+```r
+install.packages("home/calcita/Documents/oliver_version.tar.gz",
+                 repos = NULL, 
+                 type = "source")
+```
+
+
+---
+# Agregar datos de prueba
+
+
+- Un paquete suele contener algún conjunto de datos que sirven para probar el paquete.
+
+- Ejecutamos el siguiente código que genera un script donde escribimos el código que genera los datos
+
+
+```r
+usethis::use_data_raw()
+```
+
+- Luego corremos la función use_data() e ingresamos como argumento el nombre del objeto que contiene los datos
+
+
+```r
+usethis::use_data(atletas)
+```
+
+- Dado que estos datos serán accesible por quienes usen el paquete, deben estar documentados. Por eso se genera un archivo data.R que queda dentro de la carpeta R.
+
+
+```r
+usethis::use_r("data")
+```
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n  <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n  </div>\n</div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
