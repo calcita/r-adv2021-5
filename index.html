@@ -4,32 +4,38 @@
     <title>Programación avanzada en R</title>
     <meta charset="utf-8" />
     <meta name="author" content="  Creative Commons Attribution 4.0 International License" />
-    <script src="taller_pkgs_files/header-attrs-2.8/header-attrs.js"></script>
-    <link href="taller_pkgs_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
-    <script src="taller_pkgs_files/tile-view-0.2.6/tile-view.js"></script>
-    <link href="taller_pkgs_files/animate.css-3.7.2/animate.xaringan.css" rel="stylesheet" />
-    <link href="taller_pkgs_files/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
-    <script src="taller_pkgs_files/freezeframe-5.0.2/freezeframe.min.js"></script>
-    <script src="taller_pkgs_files/xaringanExtra-freezeframe-0.0.1/freezeframe-init.js"></script>
+    <script src="index_files/header-attrs-2.14/header-attrs.js"></script>
+    <link href="index_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="index_files/tile-view-0.2.6/tile-view.js"></script>
+    <link href="index_files/animate.css-3.7.2/animate.xaringan.css" rel="stylesheet" />
+    <link href="index_files/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="index_files/freezeframe-5.0.2/freezeframe.min.js"></script>
+    <script src="index_files/xaringanExtra-freezeframe-0.0.1/freezeframe-init.js"></script>
     <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
-    <script src="taller_pkgs_files/clipboard-2.0.6/clipboard.min.js"></script>
-    <link href="taller_pkgs_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
-    <script src="taller_pkgs_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+    <script src="index_files/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="index_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="index_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xadb3c731b10426fa94610da685dc1d5","expires":1}</script>
-    <script src="taller_pkgs_files/himalaya-1.1.0/himalaya.js"></script>
-    <script src="taller_pkgs_files/js-cookie-3.0.0/js.cookie.js"></script>
-    <link href="taller_pkgs_files/editable-0.2.6/editable.css" rel="stylesheet" />
-    <script src="taller_pkgs_files/editable-0.2.6/editable.js"></script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"c6f5e6bd8f3f41c2b0852d5da4015a8b","expires":1}</script>
+    <script src="index_files/himalaya-1.1.0/himalaya.js"></script>
+    <script src="index_files/js-cookie-3.0.0/js.cookie.js"></script>
+    <link href="index_files/editable-0.2.6/editable.css" rel="stylesheet" />
+    <script src="index_files/editable-0.2.6/editable.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Programación avanzada en R
-## Escuela de Invierno - Julio 2021 <br> Gabriela Mathieu
+]
+.subtitle[
+## Escuela de Invierno - Julio 2022 <br> Gabriela Mathieu
+]
+.author[
 ### <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /> <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+]
 
 ---
 
@@ -133,61 +139,67 @@ class: center, middle, inverse, title-slide
 ---
 # Pasos para crear un paquete
 
-- 0 - Crear un repositorio en gitlab/github
-&lt;br&gt;&lt;br&gt;
---
-
-- 1- Crear el esqueleto
-&lt;br&gt;&lt;br&gt;
---
-
-- 2- Agregar o editar las funciones (.R)
-&lt;br&gt;&lt;br&gt;
---
-
-- 3- Agregar o editar la ayuda de las funciones (.R) 
-&lt;br&gt;&lt;br&gt;
---
-
+- 0 - Crear un repositorio en gitlab/github (debo elegir el nombre del paquete)
+- 1- Crear el esqueleto a partir de un nuevo proyecto en RStudio
+- 2- Conectar el repo local del paquete con GitLab
+- 3- Agregar o editar las funciones (.R)
 - 4- Generar la documentación (.Rd  y NAMESPACE)
-&lt;br&gt;&lt;br&gt;
---
-
 - 5- Editar el archivo DESCRIPTION 
-&lt;br&gt;&lt;br&gt;
---
-
 - 6- Crear tests para las funciones
-&lt;br&gt;&lt;br&gt;
---
-
 - 7- Chequear el paquete
-&lt;br&gt;&lt;br&gt;
---
-
 - 8- Construir el paquete (generar el archivo .tar.gz)
+
+Estos pasos, a partir del 3, se repiten tantas veces como sea necesario, el orden no necesariamente siempre es el mismo. 
+
+---
+# 0- Crear el repo en GitLab
+
+- Crear un repositorio en GitLab (sin README.md) y llamarlo como se va a llamar el paquete
 &lt;br&gt;&lt;br&gt;
 --
 
-Estos pasos, a partir del 2, se repiten tantas veces como sea necesario, el orden no necesariamente siempre es el mismo. 
+- Al paquete le voy a llamar oliver
 
 
 ---
 # 1- Crear el esqueleto del paquete
 
-- Crear un repositorio en GitLab y llamarlo como se va a llamar el paquete
---
+- Abrir RStudio y crear un proyecto seleccionando: "New directory"/"R Package" y clickear en "Create a git repository"
 
-- Abrir RStudio y crear un proyecto en un repositorio nuevo
---
 
-- Esto crea la carpeta del paquete (oliver) y la estructura interna.
+&lt;img src="img/pkgs/rpackage_proj.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+- Esto crea la carpeta del paquete (oliver) y la estructura interna con los archivos y las sub-carpetas necesarias (man, R, etc.).
+
+---
+# 1- Crear el esqueleto del paquete
+
+Veámoslo en un gif
 
 &lt;img src="img/pkgs/genero_estructura.gif" width="30%" /&gt;
 
+---
+# 2- Conectar el repo local del paquete con GitLab
+
+Si observas en la pestaña Git no están disponibles las opciones de *pull* y *push* porque aún resta conectarlo al repo en gitlab.
+
+1- Ejecutar en la terminal de RStudio:
+
+
+```r
+git remote add origin https://gitlab.com/calcita/oliver.git
+git add .
+git commit -m "esqueleto"
+git branch -M main
+git push -u origin main
+```
+
+2- Si aún no ves activadas las teclas "Push/Pull", cerrá y reiniciá RStudio. 
+
+3- Fijate en el repo de GitLab si aparecen los nuevos archivos y creá el archivo de README.md y luego hacé el pull en el repo local.
 
 ---
-# 2- Agregar funciones
+# 3- Agregar funciones
 
 - Podemos generar un script como siempre o usar el paquete usethis.
 &lt;br&gt;&lt;br&gt;
@@ -214,7 +226,7 @@ usethis::use_r("my_first_function")
 - Si mi paquete tiene unas cuantas funciones tiene sentido agruparlas por cierta temática en un mismo archivo.
 
 ---
-# 3- Documentar las funciones
+# 4- Documentar las funciones
 
 .pull-left[
 
@@ -253,7 +265,7 @@ usethis::use_r("my_first_function")
   
 
 ---
-# 4- Generar Rd y actualizar NAMESPACE
+# 5- Generar archivos Rd y actualizar NAMESPACE
 
 - Cada vez que modificamos una función o la documentación debemos ejectuar actualizar los Rd y el NAMESPACE
 --
@@ -267,7 +279,7 @@ devtools::document()
 ```
 
 ---
-# 4.5 Instalar
+# 5' Instalar
 
 No esperamos al final para hacer pruebas informales de las funciones sino que lo instalamos aunque aún esté en desarrollo
 
@@ -279,7 +291,7 @@ devtools::install()
 ---
 # 6- Testear el código
 
-- Con el paquete testthat diseñaremos tests para aplicar a nuestras funciones que se ejecutarán de forma automatizada
+- Con el paquete **testthat** diseñaremos tests para aplicar a nuestras funciones que se ejecutarán de forma automatizada
 --
 
 
@@ -349,20 +361,10 @@ test_that("suma resultado", {
   expect_identical(sum(6, 4), 10)
   expect_length(suma(6, 5), 1)
 })
-```
 
-```
-Test passed 🥳
-```
-
-```r
 test_that("suma class", {
   expect_is(suma(-1, 5), "numeric")
 })
-```
-
-```
-Test passed 😀
 ```
 
 Nos devuelve el resultado, en este caso exitoso
@@ -377,11 +379,6 @@ Nos devuelve el resultado, en este caso exitoso
 test_that("suma class", {
   expect_is(suma(-1, 5), "character")
 })
-```
-
-```
-── Failure (&lt;text&gt;:3:3): suma class ────────────────────────────────────────────
-suma(-1, 5) inherits from `'numeric'` not `'character'`.
 ```
 
 - En este caso falla el test pero fue provocado
@@ -465,7 +462,14 @@ usethis::use_data(atletas)
 usethis::use_r("data")
 ```
 
+---
+# Congelar las versiones de las dependencias
 
+- Durante el desarrollo de un paquete pueden actualizarse paquetes que son dependientes o bien que lo hagamos en computadores con diferentes versiones de paquetes.
+
+- Esto puede hacer que se "rompa" nuestro código.
+
+- El paquete **renv** nos permite tomar una foto de los paquetes que vamos a utilizar mientras desarrollamos nuestro paquete/aplicación para asegurarnos de siempre usar las mismas versiones.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -515,6 +519,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable
